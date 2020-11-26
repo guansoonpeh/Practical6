@@ -31,7 +31,12 @@ public class Account {
 
     
     public void deposit(double amount){
-        balance += amount;
+        if(amount <=0){
+             throw new IllegalArgumentException("Invalid amount");
+        }else{
+            balance += amount;
+        }
+        
     }
     
     public void withdrawal(double amount){
@@ -40,6 +45,18 @@ public class Account {
         }else{
            balance -= amount;
         }
+    }
+    
+    public boolean equals(Object obj) {
+           
+        if (obj instanceof Account){
+            Account acc = (Account) obj;
+            
+            return(this.accountNumber == acc.accountNumber);
+        }else{
+            return false;
+        }
+        
     }
     
     public String toString(){

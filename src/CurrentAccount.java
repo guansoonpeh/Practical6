@@ -1,8 +1,9 @@
 
-public class CurrentAccount extends Account{
+public class CurrentAccount extends Account {
+
     private static int freeTansactions = 3;
     private static double transactionCharge = 0.50;
-    
+
     private int transactionCount;
 
     public CurrentAccount() {
@@ -20,25 +21,45 @@ public class CurrentAccount extends Account{
         return transactionCharge;
     }
 
-    
-    public void increaseTransactionCount(){
+    public void increaseTransactionCount() {
         transactionCount++;
     }
-    
-    public void resetTransactionCount(){
+
+    public void resetTransactionCount() {
         transactionCount = 0;
     }
-    
+
     public int getTransactionCount() {
         return transactionCount;
     }
-           
-    
-    public String toString(){
-        return super.toString() + "\n" +
-               "Transaction Count : " + transactionCount;
+
+    public void withdrawal(double amount) {
+
+        try {
+            super.withdrawal(amount);
+            increaseTransactionCount();
+            if (getTransactionCount() > freeTansactions) {
+                super.withdrawal(transactionCharge);
+            }
+
+        } catch (IllegalArgumentException ex) {
+            
+            throw ex;
+        }
     }
-    
-    
-    
+
+    public void deposit(double amount) {
+
+        super.deposit(amount);
+        increaseTransactionCount();
+        if (getTransactionCount() > freeTansactions) {
+            super.withdrawal(transactionCharge);
+        }
+    }
+
+    public String toString() {
+        return super.toString() + "\n" +
+                "Transaction Count : " + transactionCount;
+    }
+
 }
